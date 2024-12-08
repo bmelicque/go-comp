@@ -292,7 +292,7 @@ func declareIdentifier(p *Parser, identifier *Identifier, typing ExpressionType)
 	if name == "" || name == "_" {
 		return
 	}
-	if name == "Map" {
+	if name == "Map" || name == "panic" {
 		p.error(identifier, ReservedName, name)
 		return
 	}

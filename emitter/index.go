@@ -12,7 +12,8 @@ type EmitterFlag int
 
 const (
 	NoFlags   EmitterFlag = 0
-	SliceFlag EmitterFlag = 1 << iota
+	PanicFlag EmitterFlag = 1 << iota
+	SliceFlag
 	SumFlag
 )
 
@@ -131,6 +132,9 @@ func EmitProgram(nodes []parser.Node) string {
 		e.emit(node)
 	}
 	e.write("\n")
+	if e.hasFlag(PanicFlag) {
+		e.emitPanic()
+	}
 	if e.hasFlag(SliceFlag) {
 		e.emitSliceConstructor()
 	}
@@ -142,6 +146,17 @@ func EmitProgram(nodes []parser.Node) string {
 		e.write("    }\n}\n")
 	}
 	return e.string()
+}
+
+func (e *Emitter) emitPanic() {
+	e.write(`
+function panic(msg) {
+	const div = document.createElement("div");
+	div.addEventListener("click", () => {
+		throw msg;
+	});
+	div.click();
+}`)
 }
 
 func (e *Emitter) emitSliceConstructor() {

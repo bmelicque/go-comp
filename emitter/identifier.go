@@ -12,6 +12,9 @@ func (e *Emitter) emitIdentifier(i *parser.Identifier) {
 		e.write("this")
 		return
 	}
+	if text == "panic" {
+		e.addFlag(PanicFlag)
+	}
 	e.write(getSanitizedName(text))
 }
 

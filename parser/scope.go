@@ -177,6 +177,13 @@ func makePromise(t ExpressionType) TypeAlias {
 // The scope containing the standard library
 var std = Scope{
 	variables: map[string]*Variable{
+		"panic": {
+			Typing: Function{
+				TypeParams: []Generic{},
+				Params:     &Tuple{[]ExpressionType{String{}}},
+				Returned:   Nil{},
+			},
+		},
 		"List": {
 			Typing: Type{TypeAlias{
 				Name:   "List",
